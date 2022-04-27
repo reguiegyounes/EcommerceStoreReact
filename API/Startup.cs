@@ -27,7 +27,7 @@ namespace API
                 opt.UseNpgsql(Configuration.GetConnectionString("CnxStore"));
             });
                 
-            
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
@@ -47,7 +47,11 @@ namespace API
             //app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors(opt=>{
+                opt.AllowAnyHeader()
+                .AllowAnyMethod()
+                .WithOrigins("http://localhost:3000");
+            });
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
