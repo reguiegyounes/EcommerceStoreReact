@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
+import { Product } from "./product";
 
 
 function App() {
-  const [products,setProducts]=useState([
-    {name:"product01",price:100},
-    {name:"product02",price:200}
-  ]);
+  const [products,setProducts]=useState<Product[] >([]);
 
   useEffect(()=>{
     
@@ -16,7 +14,17 @@ function App() {
   },[])
 
   function addProduct() {
-    setProducts([...products,{name:"product"+(products.length+1),price:(products.length+1)*100}]);
+    setProducts([
+      ...products,
+      {
+        id:products.length+101,
+        name:"product"+(products.length+1),
+        price:(products.length+1)*100,
+        brand:'some brand',
+        description: 'some description',
+        pictureUrl:'http://picsum.photos/200'
+      }
+    ]);
   }
 
 
