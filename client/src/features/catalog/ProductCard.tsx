@@ -7,7 +7,7 @@ interface Props{
 
 export default function ProductCard({product}:Props){
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card>
             <CardHeader
                 avatar={
                     <Avatar sx={{bgcolor:'secondary.main'}}>
