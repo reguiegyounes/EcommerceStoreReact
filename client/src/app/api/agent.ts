@@ -1,9 +1,16 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { Product } from "../models/product";
 
 axios.defaults.baseURL='http://localhost:5678/api/';
 
 const responseBody=(respoonse : AxiosResponse)=> respoonse.data;
+
+axios.interceptors.response.use(response => {
+    return response;
+},(error :AxiosError)=>{
+    console.log("caught bu interceptor");
+    return Promise.reject(error.response); 
+});
 
 const requests ={
     get : async <T = any>(url : string) => (await axios.get<T>(url)).data,
