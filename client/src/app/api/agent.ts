@@ -3,11 +3,14 @@ import { toast } from "react-toastify";
 import { Product } from "../models/product";
 import { history } from "../.."
 
+const sleep =() => new Promise(resolve => setTimeout(resolve, 300));
+
 axios.defaults.baseURL='http://localhost:5678/api/';
 
 const responseBody=(respoonse : AxiosResponse)=> respoonse.data;
 
-axios.interceptors.response.use(response => {
+axios.interceptors.response.use(async response => {
+    await sleep();
     return response;
 },(error :AxiosError<any>)=>{
     //console.log("caught bu interceptor");
