@@ -11,16 +11,12 @@ namespace API.Models
         public List<BasketItem> Items { get; set; }=new();
 
         public void AddItem(Product product,int quantity){
-            if (Items.All(item => item.ProductId != product.Id ))
-            {
-                Items.Add(new BasketItem{
+            var existingItem=Items.FirstOrDefault(item => item.ProductId == product.Id);
+            if(existingItem == null) Items.Add(new BasketItem{
                     Quantity= quantity,
                     Product=product
-                });
-            }
-
-            var existingItem=Items.FirstOrDefault(item => item.ProductId == product.Id);
-            if(existingItem != null) existingItem.Quantity += quantity;
+            });
+            else existingItem.Quantity += quantity;
         }
 
         public void RemoveItem(Product product,int quantity){
