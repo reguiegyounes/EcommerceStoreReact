@@ -19,8 +19,8 @@ namespace API.Models
             else existingItem.Quantity += quantity;
         }
 
-        public void RemoveItem(Product product,int quantity){
-            var item=Items.FirstOrDefault(item => item.ProductId == product.Id);
+        public void RemoveItem(Guid productId,int quantity){
+            var item=Items.FirstOrDefault(item => item.ProductId == productId);
             if(item == null) return;
             item.Quantity -= quantity;
             if(item.Quantity == 0) Items.Remove(item);
