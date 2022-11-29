@@ -1,5 +1,6 @@
 using System;
 using API.Data;
+using API.Mapper;
 using API.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,7 +29,7 @@ namespace API
             services.AddDbContext<StoreDbContext>(opt=> {
                 opt.UseNpgsql(Configuration.GetConnectionString("CnxStore"));
             });
-                
+            services.AddAutoMapper(cfg => cfg.AddProfile(typeof(MappingProfiles)));    
             services.AddCors();
             services.AddSwaggerGen(c =>
             {

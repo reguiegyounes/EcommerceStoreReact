@@ -21,7 +21,7 @@ namespace API.Models
 
         public void RemoveItem(Product product,int quantity){
             var item=Items.FirstOrDefault(item => item.ProductId == product.Id);
-            if(item != null) return;
+            if(item == null) return;
             item.Quantity -= quantity;
             if(item.Quantity == 0) Items.Remove(item);
         }
