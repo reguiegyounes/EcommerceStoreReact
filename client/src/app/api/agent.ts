@@ -6,6 +6,7 @@ import { history } from "../.."
 const sleep =() => new Promise(resolve => setTimeout(resolve, 300));
 
 axios.defaults.baseURL='http://localhost:5678/api/';
+axios.defaults.withCredentials =true;
 
 const responseBody=(respoonse : AxiosResponse)=> respoonse.data;
 
@@ -30,7 +31,7 @@ axios.interceptors.response.use(async response => {
 
 const requests ={
     get : async <T = any>(url : string) => (await axios.get<T>(url)).data,
-    post : (url : string,body : {}) => axios.post(url,body).then(responseBody),
+    post : async  <T = any>(url : string,body : {}) => await axios.post<T>(url,body),
     put : (url : string ,body :{}) => axios.put(url,body).then(responseBody),
     delete : (url : string) => axios.delete(url).then(responseBody),
 };
@@ -39,6 +40,12 @@ const requests ={
 const Catalog ={
     list :async () => await requests.get<Product[]>('products'),
     details :async (id : string) => await requests.get<Product | null>(`products/${id}`)
+};
+
+const Basket ={
+    get : async () => await requests.get('products'),
+    addItem : (productId : string, quantity =1) => requests.post(`basket?productId=${productId}&quantity=${quantity}`,{}),
+    removeItem : (productId : string, quantity =1) => requests.delete(`basket?productId=${productId}&quantity=${quantity}`),
 };
 
 const TestErrors = {
@@ -52,6 +59,7 @@ const TestErrors = {
 
 const agent ={
     Catalog,
+    Basket,
     TestErrors
 };
 
