@@ -24,7 +24,7 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetBasket")]
         public async Task<ActionResult<BasketDto>> GetBasket(){
             var basket=await RetrieveBasket();
 
@@ -34,7 +34,7 @@ namespace API.Controllers
         }
         
         [HttpPost]
-        public async Task<ActionResult> AddItemToBasket(Guid productId ,int quantity){
+        public async Task<ActionResult<BasketDto>> AddItemToBasket(Guid productId ,int quantity){
             // get basket
             var basket=await RetrieveBasket();
             //create basket
@@ -46,7 +46,7 @@ namespace API.Controllers
             basket.AddItem(product,quantity);
             //save changes
             var result = await _context.SaveChangesAsync()>0;
-            if(result ) return StatusCode(201);
+            if(result ) return CreatedAtRoute("GetBasket",_mapper.Map<BasketDto>(basket));
 
             return BadRequest(new ProblemDetails{Title = "Problem saving item to basket"});
         }
