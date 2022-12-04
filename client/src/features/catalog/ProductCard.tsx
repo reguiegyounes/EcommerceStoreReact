@@ -13,7 +13,7 @@ export default function ProductCard({product}:Props){
     const handleAddItem = async (productId:string) => {
         setLoading(true);
         try {
-            await agent.Basket.addItem(productId)
+            await agent.BasketApi.addItem(productId)
         } catch (error) {
             console.log(error);
         } finally {
