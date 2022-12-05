@@ -4,16 +4,19 @@ import { Link } from "react-router-dom";
 import agent from "../../app/api/agent";
 import { Product } from "../../app/models/product";
 import LoadingButton from '@mui/lab/LoadingButton';
+import { useStoreContext } from "../../app/context/StoreContext";
 interface Props{
     product: Product;
 }
 
 export default function ProductCard({product}:Props){
     const [loading, setLoading]=useState(false);
+    const {setBasket} = useStoreContext();
     const handleAddItem = async (productId:string) => {
         setLoading(true);
         try {
-            await agent.BasketApi.addItem(productId)
+            const basket=await agent.BasketApi.addItem(productId);
+            setBasket(basket);
         } catch (error) {
             console.log(error);
         } finally {

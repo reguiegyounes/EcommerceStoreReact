@@ -20,24 +20,31 @@ import BasketPage from "../../features/basket/BasketPage";
 import { useStoreContext } from "../context/StoreContext";
 import agent from "../api/agent";
 import LoadingComponent from "./LoadingComponent";
+import { getCookie } from "../util/util";
 
 function App() {
   const { setBasket } = useStoreContext();
   const [loading, setLoading] = useState(true);
 
   const getbasket = async () => {
-    setLoading(true);
-    try {
-      const basket = await agent.BasketApi.get();
-      setBasket(basket);
-    } catch (error) {
-      console.log(error);
-    } finally {
+    const buyerId = getCookie('buyerId');
+    if(buyerId){
+      try {
+        const basket = await agent.BasketApi.get();
+        setBasket(basket);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }else {
       setLoading(false);
     }
   };
 
   useEffect(() => {
+    
+    
     getbasket();
   }, [setBasket]);
 
@@ -57,7 +64,7 @@ function App() {
   }
 
   if (loading) return <LoadingComponent message="Initialising app..." /> 
-  
+
   return (
     <ThemeProvider theme={theme}>
       <ToastContainer position="bottom-right" hideProgressBar theme="colored" />

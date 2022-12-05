@@ -32,7 +32,7 @@ axios.interceptors.response.use(async response => {
 
 const requests ={
     get : async <T = any>(url : string) => (await axios.get<T>(url)).data,
-    post : async  <T = any>(url : string,body : {}) => await axios.post<T>(url,body),
+    post : async  <T = any>(url : string,body : {}) => (await axios.post<T>(url,body)).data,
     put : (url : string ,body :{}) => axios.put(url,body).then(responseBody),
     delete : (url : string) => axios.delete(url).then(responseBody),
 };
@@ -45,7 +45,7 @@ const Catalog ={
 
 const BasketApi ={
     get : async () => await requests.get<Basket>('basket'),
-    addItem : (productId : string, quantity =1) => requests.post(`basket?productId=${productId}&quantity=${quantity}`,{}),
+    addItem : (productId : string, quantity =1) => requests.post<Basket>(`basket?productId=${productId}&quantity=${quantity}`,{}),
     removeItem : (productId : string, quantity =1) => requests.delete(`basket?productId=${productId}&quantity=${quantity}`),
 };
 
