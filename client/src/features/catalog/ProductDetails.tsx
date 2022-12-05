@@ -35,7 +35,7 @@ export default function ProductDetails(){
 
     function handleInputChange(event: any) {
         if(product){
-            if(event.target.value>0 && event.target.value <= product.quantityInStock){
+            if(event.target.value>=0 && event.target.value <= product.quantityInStock){
                 setQuantity(parseInt(event.target.value))
             }
         }
@@ -129,7 +129,7 @@ export default function ProductDetails(){
                             variant='contained'
                             fullWidth
                             loading={submitting}
-                            disabled={item?.quantity === quantity}
+                            disabled={item?.quantity === quantity || !item && quantity===0}
                             onClick={handleUpdateCart}
                         >
                             {item ? 'Update Quantity' : 'Add to Cart'}
