@@ -17,14 +17,15 @@ import "react-toastify/dist/ReactToastify.css";
 import ServerError from "../errors/ServerError";
 import NotFound from "../errors/NotFound";
 import BasketPage from "../../features/basket/BasketPage";
-import { useStoreContext } from "../context/StoreContext";
 import agent from "../api/agent";
 import LoadingComponent from "./LoadingComponent";
 import { getCookie } from "../util/util";
 import CheckoutPage from "../../features/checkout/CheckoutPage";
+import { useAppDispatch } from "../store/configureStore";
+import { setBasket } from "../../features/basket/basketSlice";
 
 function App() {
-  const { setBasket } = useStoreContext();
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
 
   const getbasket = async () => {
@@ -32,7 +33,7 @@ function App() {
     if(buyerId){
       try {
         const basket = await agent.BasketApi.get();
-        setBasket(basket);
+        dispatch(setBasket(basket));
       } catch (error) {
         console.log(error);
       } finally {
@@ -44,8 +45,6 @@ function App() {
   };
 
   useEffect(() => {
-    
-    
     getbasket();
   }, [setBasket]);
 

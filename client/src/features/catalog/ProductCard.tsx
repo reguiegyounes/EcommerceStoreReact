@@ -1,4 +1,4 @@
-import { ListItem, ListItemAvatar, Avatar, ListItemText, Button, Card, CardActions, CardContent, CardMedia, Typography, CardHeader } from "@mui/material"
+import { Avatar, Button, Card, CardActions, CardContent, CardMedia, Typography, CardHeader } from "@mui/material"
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import agent from "../../app/api/agent";
@@ -32,7 +32,7 @@ export default function ProductCard({product}:Props){
                     <Avatar sx={{bgcolor:'secondary.main'}}>
                         {product.name.charAt(0).toUpperCase()}
                     </Avatar>
-                }
+                } 
                 title={product.name}
                 titleTypographyProps={{
                     sx : {fontWeight:'bold',color:'primary.main'}

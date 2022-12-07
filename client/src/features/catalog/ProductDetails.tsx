@@ -129,7 +129,7 @@ export default function ProductDetails(){
                             variant='contained'
                             fullWidth
                             loading={submitting}
-                            disabled={item?.quantity === quantity || !item && quantity===0}
+                            disabled={item?.quantity === quantity || (!item && quantity===0)}
                             onClick={handleUpdateCart}
                         >
                             {item ? 'Update Quantity' : 'Add to Cart'}
