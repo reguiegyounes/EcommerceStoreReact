@@ -3,15 +3,17 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import agent from "../../app/api/agent";
-import { useStoreContext } from "../../app/context/StoreContext";
 import NotFound from "../../app/errors/NotFound";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { Product } from "../../app/models/product";
+import { removeItem, setBasket } from "../basket/basketSlice";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 
 export default function ProductDetails(){
     const {id}=useParams<{id: string}>();
 
-    const {basket ,setBasket,removeItem} = useStoreContext();
+    const dispatch = useAppDispatch();
+    const {basket} =useAppSelector(state => state.basket);
     const [product,setProduct]=useState<Product | null>(null);
     const [loading, setLoading]=useState(true);
     const [quantity,setQuantity] = useState(0);
@@ -47,7 +49,7 @@ export default function ProductDetails(){
             const updateQuantity=item ? quantity - item.quantity : quantity ;
             try {
                 const basket=await agent.BasketApi.addItem(id!,updateQuantity);
-                setBasket(basket);
+                dispatch(setBasket(basket));
             } catch (error) {
                 console.log(error);
             } finally {
@@ -57,7 +59,7 @@ export default function ProductDetails(){
             const updateQuantity=item.quantity - quantity ;
             try {
                 await agent.BasketApi.removeItem(id!,updateQuantity);
-                removeItem(id!,updateQuantity);
+                dispatch(removeItem({id,updateQuantity}));
             } catch (error) {
                 console.log(error);
             } finally {
@@ -141,4 +143,6 @@ export default function ProductDetails(){
 
     )
 }
+
+
 

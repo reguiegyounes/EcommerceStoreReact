@@ -46,7 +46,7 @@ function App() {
 
   useEffect(() => {
     getbasket();
-  }, [setBasket]);
+  }, [dispatch]);
 
   const [darkMode, setDarkMode] = useState(false);
   const paletteType = darkMode ? "dark" : "light";
